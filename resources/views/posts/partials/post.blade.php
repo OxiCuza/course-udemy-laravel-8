@@ -1,5 +1,5 @@
 <h3>
-    <a href="{{route('posts.show', ['post' => $post->id])}}" class="btn btn-primary">
+    <a href="{{route('posts.show', ['post' => $post->id])}}">
         {{$post->title}}
     </a>
 </h3>
@@ -9,6 +9,6 @@
     <form class="d-inline" action="{{route('posts.destroy', ['post' => $post->id])}}" method="POST">
         @csrf
         @method('DELETE')
-        <input type="submit" value="delete" class="btn btn-primary">
+        <input type="submit" value="Delete" class="btn btn-danger">
     </form>
 </div>

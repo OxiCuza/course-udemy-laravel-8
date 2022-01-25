@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\PostController;
+use \App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,8 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::resource('posts', \App\Http\Controllers\PostController::class);
+Route::get('/', [HomeController::class, 'index'])->name('home.index');
+Route::get('contact', [HomeController::class, 'contact'])->name('home.contact');
+Route::resource('posts', PostController::class);

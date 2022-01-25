@@ -17,10 +17,10 @@
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 bg-white border-bottom shadow-sm mb-4">
         <h5 class="my-0 mr-md-auto font-weight">Udemy Course</h5>
         <nav class="my-2 my-md-0 mr-md-3">
-            <a href="#" class="p-2 text-dark active">
+            <a href="{{route('home.index')}}" class="p-2 text-dark">
                 Home
             </a>
-            <a href="#" class="p-2 text-dark">
+            <a href="{{route('home.contact')}}" class="p-2 text-dark">
                 Contact
             </a>
             <a href="{{route('posts.index')}}" class="p-2 text-dark">
