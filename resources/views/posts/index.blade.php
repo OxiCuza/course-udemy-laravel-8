@@ -4,8 +4,10 @@
 
 @section('content')
     <div class="container">
-        @foreach($posts as $post)
+        @forelse($posts as $post)
             @include('posts.partials.post')
-        @endforeach
+        @empty
+            <p>No Blog Post !</p>
+        @endforelse
     </div>
 @endsection
