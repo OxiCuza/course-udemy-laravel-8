@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\BlogPost;
+use App\Models\Comment;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -124,5 +125,20 @@ class PostTest extends TestCase
         $this->assertEquals(session('status'), 'Blog post was deleted !');
         $deletedPost = BlogPost::find($post->id);
         $this->assertNull($deletedPost);
+    }
+
+    public function test_when_blog_post_have_comments()
+    {
+//        arrange
+        $post = $this->createDummyData();
+        Comment::factory()->count(5)->create([
+            'blog_post_id' => $post->id
+        ]);
+
+//        act
+        $response = $this->get('/posts');
+
+//        assert
+        $response->assertSeeText('5 comments');
     }
 }
