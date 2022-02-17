@@ -6,7 +6,7 @@
     <h1>
         {{$post->title}}
     </h1>
-    <p>
+    <p class="text-justify">
         {{$post->content}}
     </p>
     <p>
@@ -18,4 +18,16 @@
             New!
         </div>
     @endif
+
+    <h4 class="mb-3">Comments</h4>
+    @forelse($post->comments as $comment)
+        <p class="mb-0">
+            {{$comment->content}}
+        </p>
+        <p class="text-muted">
+            {{$comment->created_at->diffForHumans()}}
+        </p>
+    @empty
+        <p>No comments yet !</p>
+    @endforelse
 @endsection
