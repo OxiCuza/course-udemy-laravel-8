@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\BlogPost;
+use App\Models\Comment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class BlogPostFactory extends Factory
@@ -19,6 +21,13 @@ class BlogPostFactory extends Factory
         ];
     }
 
+    public function configure()
+    {
+        return $this->afterCreating(function (BlogPost $blogPost) {
+           $blogPost->comments()->saveMany(Comment::factory()->count(2)->make());
+        });
+    }
+
     /**
      * Define state of factory to change attr title with default value
      *
@@ -28,7 +37,8 @@ class BlogPostFactory extends Factory
     {
         return $this->state(function (array $attributes) {
            return [
-              'title' => 'New Blog Post'
+               'title' => 'New Blog Post',
+               'content' => 'This is content of blog post'
            ] ;
         });
     }
