@@ -29,6 +29,22 @@
             <a href="{{route('posts.create')}}" class="p-2 text-dark">
                 Add Blog Post
             </a>
+
+            @guest
+                <a href="{{route('register')}}" class="p-2 text-dark">
+                    Register
+                </a>
+                <a href="{{route('login')}}" class="p-2 text-dark">
+                    Login
+                </a>
+            @else
+                <a href="{{route('logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="p-2 text-dark">
+                    Logout
+                </a>
+                <form action="{{route('logout')}}" method="post" id="logout-form">
+                    @csrf
+                </form>
+            @endguest
         </nav>
     </div>
     <div class="container">
