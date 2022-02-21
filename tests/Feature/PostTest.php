@@ -55,7 +55,8 @@ class PostTest extends TestCase
         ];
 
 //        act
-        $this->post('/posts', $body)
+        $this->actingAs($this->user())
+            ->post('/posts', $body)
             ->assertStatus(302)
             ->assertSessionHas('status');
 
@@ -72,7 +73,8 @@ class PostTest extends TestCase
         ];
 
 //        act
-        $this->post('/posts', $body)
+        $this->actingAs($this->user())
+            ->post('/posts', $body)
             ->assertStatus(302)
             ->assertSessionHas('errors');
 
@@ -99,7 +101,8 @@ class PostTest extends TestCase
         ]);
 
 //        act
-        $this->put("/posts/{$post->id}", $body)
+        $this->actingAs($this->user())
+            ->put("/posts/{$post->id}", $body)
             ->assertStatus(302)
             ->assertSessionHas('status');
 
@@ -120,7 +123,8 @@ class PostTest extends TestCase
         $post = $this->createDummyData();
         $this->assertNotNull($post);
 
-        $this->delete(route('posts.destroy', $post->id))
+        $this->actingAs($this->user())
+            ->delete("/posts/{$post->id}")
             ->assertStatus(302)
             ->assertSessionHas('status');
 
