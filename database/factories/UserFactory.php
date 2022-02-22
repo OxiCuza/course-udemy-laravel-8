@@ -36,4 +36,14 @@ class UserFactory extends Factory
             ];
         });
     }
+
+    public function rootUser()
+    {
+        return $this->state(function (array $attributes) {
+           return [
+               'name' => 'Root User',
+               'email' => 'superadmin@imagine.com'
+           ];
+        });
+    }
 }
