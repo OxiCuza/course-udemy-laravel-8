@@ -13,6 +13,14 @@ class BlogPost extends Model
         'title', 'content'
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+        parent::deleting(function (BlogPost $blogPost) {
+            $blogPost->comments()->delete();
+        });
+    }
+
     public function comments()
     {
         return $this->hasMany(Comment::class);
