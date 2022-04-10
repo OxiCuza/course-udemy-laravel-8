@@ -14,14 +14,18 @@ class BlogPost extends Model
         'title', 'content'
     ];
 
-//    public static function boot()
-//    {
-//        parent::boot();
-//
-//        static::deleting(function (BlogPost $blogPost) {
-//            $blogPost->comments()->delete();
-//        });
-//    }
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function (BlogPost $blogPost) {
+            $blogPost->comments()->delete();
+        });
+
+        static::restoring(function (BlogPost $blogPost) {
+            $blogPost->comments()->restore();
+        });
+    }
 
     public function comments()
     {
