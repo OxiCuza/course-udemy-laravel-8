@@ -4,6 +4,11 @@
     </a>
 </h3>
 
+<div class="text-muted mb-3">
+    Added {{$post->created_at->diffForHumans()}}
+    by {{ $post->user->name }}
+</div>
+
 @if($post->comments_count)
     <p>
         {{$post->comments_count}} comments
