@@ -18,6 +18,11 @@ use \Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
-Route::get('/', [HomeController::class, 'index'])->name('home.index');
-Route::get('contact', [HomeController::class, 'contact'])->name('home.contact');
+Route::get('/', [HomeController::class, 'index'])
+    ->name('home.index');
+Route::get('contact', [HomeController::class, 'contact'])
+    ->name('home.contact');
+Route::get('secret', [HomeController::class, 'secret'])
+    ->name('home.secret')
+    ->middleware('can:secret-link');
 Route::resource('posts', PostController::class);

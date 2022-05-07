@@ -42,7 +42,8 @@ class UserFactory extends Factory
         return $this->state(function (array $attributes) {
            return [
                'name' => 'Root User',
-               'email' => 'superadmin@imagine.com'
+               'email' => 'superadmin@imagine.com',
+               'is_admin' => true
            ];
         });
     }

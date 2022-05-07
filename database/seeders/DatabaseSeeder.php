@@ -13,8 +13,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        if ($this->command->confirm('Do you want to refresh the database ?', true)) {
-            $this->command->call('migrate:refresh');
+        if ($this->command->confirm('Do you want to migrate fresh the database ?', true)) {
+            $this->command->call('migrate:fresh');
             $this->command->info('Database was refreshed');
         }
 
