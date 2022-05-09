@@ -47,6 +47,7 @@ class PostController extends Controller
     public function store(StorePost $request)
     {
         $validated = $request->validated();
+        $validated['user_id'] = $request->user()->id;
         $post = new BlogPost();
         $post->fill($validated);
         $post->save();
