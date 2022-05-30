@@ -10,10 +10,9 @@
     @endif
 </h3>
 
-<div class="text-muted mb-3">
-    Added {{$post->created_at->diffForHumans()}}
-    by {{ $post->user->name }}
-</div>
+@component('components.author-information', ['author' => $post->user->name, 'date' => $post->created_at])
+    Added
+@endcomponent
 
 @if($post->comments_count)
     <p>

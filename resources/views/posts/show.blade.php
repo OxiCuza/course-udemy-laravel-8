@@ -9,9 +9,9 @@
     <p class="text-justify">
         {{$post->content}}
     </p>
-    <p>
-        Added {{$post->created_at->diffForHumans()}}
-    </p>
+    @component('components.author-information', ['author' => $post->user->name, 'date' => $post->created_at])
+        Added
+    @endcomponent
 
     @if(now()->diffInMinutes($post->created_at) < 5)
         <div class="alert alert-info">
