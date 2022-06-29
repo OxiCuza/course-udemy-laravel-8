@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePost;
 use App\Models\BlogPost;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Cache;
 
 class PostController extends Controller
 {
@@ -16,40 +15,36 @@ class PostController extends Controller
             ->only(['create', 'store', 'edit', 'update', 'destroy']);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
+        $mostCommented = Cache::remember('mostCommented', now()->addMinute(30), function () {
+            return BlogPost::mostCommented()->take(3)->get();
+        });
+
+        $mostActive = Cache::remember('mostActive', now()->addMinute(30), function () {
+            return User::withMostBlogPosts()->take(3)->get();
+        });
+
+        $mostActiveLastMonth = Cache::remember('mostActiveLastMonth', now()->addMinute(15), function () {
+            return User::withMostBlogPostsLastMonth()->take(3)->get();
+        });
+
         return view(
             'posts.index',
             [
-                'posts' => BlogPost::descOrder()->withCount('comments')->get(),
-                'mostCommented' => BlogPost::mostCommented()->take(3)->get(),
-                'mostActive' => User::withMostBlogPosts()->take(3)->get(),
-                'mostActiveLastMonth' => User::withMostBlogPostsLastMonth()->take(3)->get(),
+                'posts' => BlogPost::descOrder()->withCount('comments')->with('user')->get(),
+                'mostCommented' => $mostCommented,
+                'mostActive' => $mostActive,
+                'mostActiveLastMonth' => $mostActiveLastMonth,
             ]
         );
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('posts.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StorePost $request)
     {
         $validated = $request->validated();
@@ -63,25 +58,17 @@ class PostController extends Controller
         return redirect()->route('posts.show', ['post' => $post->id]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        return view('posts.show', ['post' => BlogPost::with(['comments' => function ($query) {
-            return $query->descOrder();
-        }])->findOrFail($id)]);
+        $blogPost = Cache::remember("blog-post-$id", now()->addMinute(30), function () use ($id) {
+            return BlogPost::with(['user', 'comments' => function ($query) {
+                return $query->descOrder();
+            }])->findOrFail($id);
+        });
+
+        return view('posts.show', ['post' => $blogPost]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $post = BlogPost::findOrFail($id);
@@ -95,13 +82,6 @@ class PostController extends Controller
         return view('posts.edit', ['post' => $post]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(StorePost $request, $id)
     {
         $post = BlogPost::findOrFail($id);
@@ -116,12 +96,7 @@ class PostController extends Controller
 
         return redirect()->route('posts.show', ['post' => $post->id]);
     }
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
         $post = BlogPost::findOrFail($id);
