@@ -11,9 +11,10 @@
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "3.0.0"
+        "laravel/ui": "3.4.6"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "*",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
