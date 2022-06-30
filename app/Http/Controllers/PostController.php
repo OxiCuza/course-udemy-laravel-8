@@ -66,7 +66,50 @@ class PostController extends Controller
             }])->findOrFail($id);
         });
 
-        return view('posts.show', ['post' => $blogPost]);
+        /**
+         * For counting currently show this blogpost +- 1 minutes
+         */
+        # define key for counter and listing users
+        $counterKey = "blog-post-$id-counter";
+        $usersKey = "blog-post-$id-users";
+
+        # get cache listing users with default value is array if null
+        $users = Cache::get($usersKey);
+
+        # define counter initiate is 0
+        $usersUpdate = [];
+
+        # get session id user
+        $sessionUser = session()->getId();
+
+        # if cache listing users is null the result cache listing is 1 user
+        if (!Cache::has($counterKey)) {
+            Cache::forever($counterKey, 1);
+            $usersUpdate[$sessionUser] = now();
+        }
+
+        # loop cache listing has users
+        foreach ($users as $sessionId => $timeUser) {
+            if (($sessionUser == $sessionId) && now()->diffInMinutes($timeUser) >= 1) {
+                # if key current user is exist && time different >= 1 the result is counter--
+                Cache::decrement($counterKey);
+            } elseif (($sessionUser != $sessionId) && now()->diffInMinutes($timeUser) <= 1) {
+                # else if key current user is not exist && time different <= 1 the result is counter++
+                $usersUpdate[$sessionUser] = now();
+                Cache::increment($counterKey);
+            } else {
+                # else create new array for temporary
+                $usersUpdate[$sessionId] = $timeUser;
+            }
+        }
+
+        # update cache listing users
+        Cache::forever($usersKey, $usersUpdate);
+
+        return view('posts.show', [
+            'post' => $blogPost,
+            'counter' => Cache::get($counterKey),
+        ]);
     }
 
     public function edit($id)

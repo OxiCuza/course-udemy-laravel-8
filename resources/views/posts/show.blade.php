@@ -13,6 +13,10 @@
         Added
     @endcomponent
 
+    <p>
+        Currently read by {{ $counter }} people
+    </p>
+
     @if(now()->diffInMinutes($post->created_at) < 5)
         <div class="alert alert-info">
             New!
