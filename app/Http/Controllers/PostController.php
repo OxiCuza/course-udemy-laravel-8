@@ -74,10 +74,10 @@ class PostController extends Controller
         $usersKey = "blog-post-$id-users";
 
         # get cache listing users with default value is array if null
-        $users = Cache::get($usersKey);
+        $users = Cache::get($usersKey, array());
 
         # define counter initiate is 0
-        $usersUpdate = [];
+        $usersUpdate = array();
 
         # get session id user
         $sessionUser = session()->getId();
