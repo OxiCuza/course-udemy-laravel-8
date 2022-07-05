@@ -26,3 +26,4 @@ Route::get('secret', [HomeController::class, 'secret'])
     ->name('home.secret')
     ->middleware('can:secret-link');
 Route::resource('posts', PostController::class);
+Route::get('posts/tag/{tag}', [\App\Http\Controllers\TagController::class, 'index'])->name('posts.tag.index');

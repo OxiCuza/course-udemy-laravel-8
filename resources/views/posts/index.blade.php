@@ -13,46 +13,23 @@
                 @endforelse
             </div>
             <div class="col-4 col-lg-4 col-md-4 col-sm-4">
-                <div class="card mb-4">
-                    <div class="card-header">
-                        Most Commented BlogPost
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        @foreach($mostCommented as $post)
-                            <li class="list-group-item">
-                                <a href="{{ route('posts.show', ['post' => $post->id]) }}">
-                                    {{ $post->title }}
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
+                @component('components.card')
+                    @slot('title', 'Most Commented Post')
+                    @slot('collections', $mostCommented)
+                    @slot('isBlogPost', true)
+                @endcomponent
 
-                <div class="card mb-4">
-                    <div class="card-header">
-                        Most Active Users
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        @foreach($mostActive as $user)
-                            <li class="list-group-item">
-                                {{ $user->name }}
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
+                @component('components.card')
+                    @slot('title', 'Most Active Users')
+                    @slot('collections', $mostActive)
+                    @slot('isBlogPost', false)
+                @endcomponent
 
-                <div class="card mb-4">
-                    <div class="card-header">
-                        Most Active Last Month
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        @foreach($mostActiveLastMonth as $user)
-                            <li class="list-group-item">
-                                {{ $user->name }}
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
+                @component('components.card')
+                    @slot('title', 'Most Active Last Month')
+                    @slot('collections', $mostActiveLastMonth)
+                    @slot('isBlogPost', false)
+                @endcomponent
             </div>
         </div>
     </div>

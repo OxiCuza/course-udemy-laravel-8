@@ -13,6 +13,9 @@
         Added
     @endcomponent
 
+    @component('components.tags', ['tags' => $post->tags])
+    @endcomponent
+
     <p>
         Currently read by {{ $counter }} people
     </p>

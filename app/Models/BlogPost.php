@@ -48,6 +48,11 @@ class BlogPost extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'blog_post_tag');
+    }
+
 //    SCOPE QUERY
     public function scopeDescOrder(Builder $query)
     {

@@ -14,6 +14,9 @@
     Added
 @endcomponent
 
+@component('components.tags', ['tags' => $post->tags])
+@endcomponent
+
 @if($post->comments_count)
     <p>
         {{$post->comments_count}} comments
