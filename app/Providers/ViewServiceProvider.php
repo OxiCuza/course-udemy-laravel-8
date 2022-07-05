@@ -25,6 +25,6 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::composer('posts.index', ActivityComposer::class);
+        View::composer(['posts.index', 'posts.show'], ActivityComposer::class);
     }
 }

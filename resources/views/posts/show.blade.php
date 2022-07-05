@@ -3,6 +3,9 @@
 @section('title', $post->title)
 
 @section('content')
+    <div class="container">
+        <div class="row">
+            <div class="col-8 col-lg-8 col-md-8 col-sm-8">
     <h1>
         {{$post->title}}
     </h1>
@@ -37,4 +40,27 @@
     @empty
         <p>No comments yet !</p>
     @endforelse
+            </div>
+            <div class="col-4 col-lg-4 col-md-4 col-sm-4">
+                @component('components.card')
+                    @slot('title', 'Most Commented Post')
+                    @slot('collections', $mostCommented)
+                    @slot('isBlogPost', true)
+                @endcomponent
+
+                @component('components.card')
+                    @slot('title', 'Most Active Users')
+                    @slot('collections', $mostActive)
+                    @slot('isBlogPost', false)
+                @endcomponent
+
+                @component('components.card')
+                    @slot('title', 'Most Active Last Month')
+                    @slot('collections', $mostActiveLastMonth)
+                    @slot('isBlogPost', false)
+                @endcomponent
+            </div>
+        </div>
+    </div>
+
 @endsection
