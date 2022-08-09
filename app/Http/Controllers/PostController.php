@@ -48,7 +48,7 @@ class PostController extends Controller
         $blogPost = Cache::remember("blog-post-$id", now()->addMinute(30), function () use ($id) {
             return BlogPost::with(['user', 'tags', 'comments' => function ($query) {
                 return $query->descOrder();
-            }])->findOrFail($id);
+            }, 'comments.user'])->findOrFail($id);
         });
 
         /**

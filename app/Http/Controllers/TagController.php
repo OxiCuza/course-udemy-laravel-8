@@ -15,7 +15,11 @@ class TagController extends Controller
         return view(
             'posts.index',
             [
-                'posts' => $tagCollection->blogPosts
+                'posts' => $tagCollection->blogPosts()
+                    ->with(['user', 'tags'])
+                    ->withCount('comments')
+                    ->descOrder()
+                    ->get()
             ]
         );
     }
