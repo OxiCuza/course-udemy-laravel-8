@@ -53,6 +53,11 @@ class BlogPost extends Model
         return $this->belongsToMany(Tag::class, 'blog_post_tag');
     }
 
+    public function image()
+    {
+        return $this->hasOne(Image::class);
+    }
+
 //    SCOPE QUERY
     public function scopeDescOrder(Builder $query)
     {

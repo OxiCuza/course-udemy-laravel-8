@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePost;
 use App\Models\BlogPost;
+use App\Models\Image;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 
@@ -37,6 +38,11 @@ class PostController extends Controller
         $post = new BlogPost();
         $post->fill($validated);
         $post->save();
+
+        if ($request->hasFile('thumbnail')) {
+            $path = $request->file('thumbnail')->store('thumbnails');
+            $post->image()->create(['path' => $path]);
+        }
 
         $request->session()->flash('status', 'The blog post was created !');
 

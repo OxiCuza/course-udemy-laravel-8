@@ -17,3 +17,13 @@
         {{$message}}
     </div>
 @enderror
+
+<div class="form-group">
+    <label for="thumbnail">Thumbnail</label>
+    <input type="file" id="thumbnail" name="thumbnail" class="form-control-file" />
+</div>
+@error('thumbnail')
+<div class="alert alert-danger">
+    {{$message}}
+</div>
+@enderror

@@ -12,6 +12,9 @@
                 <p class="text-justify">
                     {{$post->content}}
                 </p>
+
+                <img src="{{ $post->image->url() }}" alt="try-to-upload-image">
+
                 @component('components.author-information', ['author' => $post->user->name, 'date' => $post->created_at])
                     Added
                 @endcomponent
