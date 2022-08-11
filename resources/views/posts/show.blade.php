@@ -29,7 +29,7 @@
                     {{$post->content}}
                 </p>
 
-                @component('components.author-information', ['author' => $post->user->name, 'date' => $post->created_at])
+                @component('components.author-information', ['author' => $post->user->name, 'date' => $post->created_at, 'userId' => $post->user->id])
                     Added
                 @endcomponent
 

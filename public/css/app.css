@@ -10019,3 +10019,7 @@ h3 {
     border-color: #dee2e6;
   }
 }
+.avatar {
+  width: 120px;
+  height: 120px;
+}
