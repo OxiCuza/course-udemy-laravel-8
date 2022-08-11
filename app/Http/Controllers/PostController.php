@@ -7,6 +7,7 @@ use App\Models\BlogPost;
 use App\Models\Image;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -124,6 +125,18 @@ class PostController extends Controller
 
         $validated = $request->validated();
         $post->fill($validated);
+
+        if ($request->hasFile('thumbnail')) {
+            $path = $request->file('thumbnail')->store('thumbnails');
+            if ($post->image) {
+                Storage::delete($post->image->path);
+                $post->image->path = $path;
+                $post->image->save();
+            } else {
+                $post->image()->create(['path' => $path]);
+            }
+        }
+
         $post->save();
 
         $request->session()->flash('status', 'The blog post was updated !');

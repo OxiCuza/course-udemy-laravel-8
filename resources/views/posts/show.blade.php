@@ -6,14 +6,28 @@
     <div class="container">
         <div class="row">
             <div class="col-8 col-lg-8 col-md-8 col-sm-8">
-                <h1>
-                    {{$post->title}}
-                </h1>
+                @if($post->image)
+                    <div style="background-image: url('{{ $post->image->url() }}}');
+                        min-height: 500px;
+                        color: white;
+                        text-align: center;
+                        background-attachment: fixed;">
+                        <h1 style="padding-top: 100px; text-shadow: 1px 2px #000;">
+                            @else
+                                <h1>
+                                    @endif
+
+                                    {{$post->title}}
+
+                                    @if($post->image)
+                                </h1>
+                    </div>
+                    @else
+                        </h1>
+                @endif
                 <p class="text-justify">
                     {{$post->content}}
                 </p>
-
-                <img src="{{ $post->image->url() }}" alt="try-to-upload-image">
 
                 @component('components.author-information', ['author' => $post->user->name, 'date' => $post->created_at])
                     Added
