@@ -12,7 +12,7 @@
 
         <div class="row">
             <div class="col-4">
-                <img src="" alt="avatar" class="img-thumbnail avatar" />
+                <img src="{{ $user->image ? $user->image->url() : '' }}" alt="avatar" class="img-thumbnail avatar" />
                 <div class="card mt-4">
                     <div class="card-body">
                         <h6>
@@ -27,6 +27,11 @@
                     <label for="name">Name :</label>
                     <input type="text" id="name" name="name" class="form-control" />
                 </div>
+                @error('name')
+                <div class="alert alert-danger">
+                    {{$message}}
+                </div>
+                @enderror
                 <div class="form-group">
                     <input type="submit" value="Update" class="btn btn-primary btn-block">
                 </div>

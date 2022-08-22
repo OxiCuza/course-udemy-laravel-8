@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-8 col-lg-8 col-md-8 col-sm-8">
                 @if($post->image)
-                    <div style="background-image: url('{{ $post->image->url() }}}');
+                    <div style="background-image: url('{{ $post->image->url() }}');
                         min-height: 500px;
                         color: white;
                         text-align: center;
