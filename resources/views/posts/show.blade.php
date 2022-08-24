@@ -48,17 +48,11 @@
 
                 <h4 class="mb-3">Comments</h4>
 
-                @include('comments.partials.form')
+                @component('components.comment-form', ['route' => route('posts.comment.store', ['post' => $post->id])])
+                @endcomponent
 
-                @forelse($post->comments as $comment)
-                    <p class="mb-0">
-                        {{$comment->content}}
-                    </p>
-                    @component('components.author-information', ['author' => $comment->user->name, 'date' => $comment->created_at])
-                    @endcomponent
-                @empty
-                    <p>No comments yet !</p>
-                @endforelse
+                @component('components.comment-list', ['comments' => $post->commnets])
+                @endcomponent
             </div>
             <div class="col-4 col-lg-4 col-md-4 col-sm-4">
                 @component('components.card')
