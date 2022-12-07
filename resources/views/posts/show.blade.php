@@ -48,10 +48,10 @@
 
                 <h4 class="mb-3">Comments</h4>
 
-                @component('components.comment-form', ['route' => route('posts.comment.store', ['post' => $post->id])])
+                @component('components.comment-form', ['route' => route('posts.comments.store', ['post' => $post->id])])
                 @endcomponent
 
-                @component('components.comment-list', ['comments' => $post->commnets])
+                @component('components.comment-list', ['comments' => $post->comments])
                 @endcomponent
             </div>
             <div class="col-4 col-lg-4 col-md-4 col-sm-4">
