@@ -14,7 +14,7 @@ class Comment extends Model
     use HasFactory, SoftDeletes, Taggable;
 
     protected $fillable = [
-        'content'
+        'content', 'user_id'
     ];
 
     protected static function boot()

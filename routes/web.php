@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\PostController;
 use \App\Http\Controllers\HomeController;
+use App\Mail\CommentPostedMarkdown;
+use App\Models\Comment;
 use \Illuminate\Support\Facades\Auth;
 
 /*
@@ -31,3 +33,9 @@ Route::get('posts/tag/{tag}', [\App\Http\Controllers\TagController::class, 'inde
 Route::resource('posts.comments', \App\Http\Controllers\PostCommentController::class)->only('store');
 Route::resource('users.comments', \App\Http\Controllers\UserCommentController::class)->only('store');
 Route::resource('users', \App\Http\Controllers\UserController::class)->only(['show', 'edit', 'update']);
+
+Route::get('mailable', function () {
+    $comment = Comment::find(1);
+
+    return new CommentPostedMarkdown($comment);
+});
