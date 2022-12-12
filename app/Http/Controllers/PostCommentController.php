@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreComment;
+use App\Jobs\NotifyUsers;
 use App\Mail\CommentPosted;
 use App\Mail\CommentPostedMarkdown;
 use App\Models\BlogPost;
@@ -22,10 +23,26 @@ class PostCommentController extends Controller
             'user_id' => $request->user()->id
         ]);
 
-        Mail::to($post->user)->send(
-            // new CommentPosted($comment)
-            new CommentPostedMarkdown($comment)
-        );
+        // * IF YOU NEED SEND EMAIL TO ALL USERS, YOU SHOULD USE RATE LIMITER
+
+        # SEND EMAIL TO AUTHOR
+        // Mail::to($post->user)->send(
+        // new CommentPosted($comment)
+        //     new CommentPostedMarkdown($comment)
+        // );
+
+        // Mail::to($post->user)->queue(
+        //     new CommentPostedMarkdown($comment)
+        // );
+
+        # SEND EMAIL TO ANOTHER USERS ON WATCHED POST
+        // NotifyUsers::dispatch($comment);
+
+        // $when = now()->addMinutes(5);
+        // Mail::to($post->user)->later(
+        //     $when,
+        //     new CommentPostedMarkdown($comment)
+        // );
 
         $request->session()->flash('status', 'Comment was created!');
         return redirect()->back();
