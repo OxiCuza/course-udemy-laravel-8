@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CommentPostedEvent;
 use App\Http\Requests\StoreComment;
 use App\Jobs\NotifyUsers;
 use App\Mail\CommentPosted;
@@ -28,7 +29,7 @@ class PostCommentController extends Controller
         # SEND EMAIL TO AUTHOR
         // Mail::to($post->user)->send(
         // new CommentPosted($comment)
-        //     new CommentPostedMarkdown($comment)
+        // new CommentPostedMarkdown($comment)
         // );
 
         // Mail::to($post->user)->queue(
@@ -43,6 +44,9 @@ class PostCommentController extends Controller
         //     $when,
         //     new CommentPostedMarkdown($comment)
         // );
+
+        // * TRY TO USE CUSTOM EVENT AND LISTENER FOR SENDING NOTIF / EMAIL
+        event(new CommentPostedEvent($comment));
 
         $request->session()->flash('status', 'Comment was created!');
         return redirect()->back();

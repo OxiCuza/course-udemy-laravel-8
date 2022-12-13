@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\BlogPostedEvent;
 use App\Http\Requests\StorePost;
 use App\Models\BlogPost;
 use App\Models\Image;
-use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
@@ -46,6 +46,8 @@ class PostController extends Controller
                 Image::make(['path' => $path])
             );
         }
+
+        event(new BlogPostedEvent($post));
 
         $request->session()->flash('status', 'The blog post was created !');
 
@@ -110,9 +112,9 @@ class PostController extends Controller
     {
         $post = BlogPost::findOrFail($id);
 
-//        if (Gate::denies('update-post', $post)) {
-//            abort(403, "You can't edit this post!");
-//        }
+        //        if (Gate::denies('update-post', $post)) {
+        //            abort(403, "You can't edit this post!");
+        //        }
 
         $this->authorize('update', $post);
 
