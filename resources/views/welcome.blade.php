@@ -5,7 +5,14 @@
 @endsection
 
 @section('content')
-    This is example of content
+<div>
+    {{__('messages.example')}}
+</div>
+
+<div>
+    @lang('messages.example')
+</div>
+
 
     @can('secret-link')
         <div>
