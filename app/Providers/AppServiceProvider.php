@@ -7,6 +7,7 @@ use App\Models\Comment;
 use App\Observers\BlogPostObserver;
 use App\Observers\CommentObserver;
 use App\Services\Counter;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -34,5 +35,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(Counter::class, function ($app) {
             return new Counter();
         });
+
+        JsonResource::withoutWrapping();
     }
 }

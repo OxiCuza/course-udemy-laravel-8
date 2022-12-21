@@ -19,8 +19,8 @@ class NotifyAuthorListener
     public function handle(CommentPostedEvent $event)
     {
         # SEND EMAIL TO AUTHOR
-        Mail::to($event->user)->queue(
-            new CommentPostedMarkdown($event)
+        Mail::to($event->comment->commentable->user)->queue(
+            new CommentPostedMarkdown($event->comment)
         );
     }
 }
