@@ -22,3 +22,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('v1')->name('api.v1.')->group(function () {
     Route::apiResource('posts.comments', PostCommentController::class);
 });
+
+Route::fallback(function () {
+    return response()->json([
+        'message' => 'Not Found'
+    ], 404);
+})->name('api.fallback');
